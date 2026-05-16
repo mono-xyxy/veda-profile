@@ -1,0 +1,402 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SUBJECT V-23 | Veda Profile</title>
+    <style>
+        :root {
+            --primary-color: #a855f7; /* Neon purple */
+            --bg-color: #05010a;
+            --text-color: #d8b4fe;
+            --border-color: rgba(168, 85, 247, 0.5);
+            --dark-purple: #1a0b2e;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            background-color: var(--bg-color);
+            color: var(--primary-color);
+            font-family: 'Courier New', Courier, monospace;
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+            overflow-x: hidden;
+            position: relative;
+        }
+
+        /* CRT Scanline effect */
+        body::before {
+            content: " ";
+            display: block;
+            position: fixed;
+            top: 0;
+            left: 0;
+            bottom: 0;
+            right: 0;
+            background: linear-gradient(rgba(18, 16, 16, 0) 50%, rgba(0, 0, 0, 0.25) 50%), linear-gradient(90deg, rgba(255, 0, 0, 0.06), rgba(0, 255, 0, 0.02), rgba(0, 0, 255, 0.06));
+            z-index: 2;
+            background-size: 100% 2px, 3px 100%;
+            pointer-events: none;
+        }
+
+        .container {
+            width: 100%;
+            max-width: 800px;
+            border: 2px solid var(--primary-color);
+            padding: 25px;
+            position: relative;
+            background: rgba(10, 2, 20, 0.85);
+            box-shadow: 0 0 15px rgba(168, 85, 247, 0.3), inset 0 0 20px rgba(168, 85, 247, 0.1);
+            z-index: 1;
+        }
+
+        .header {
+            display: flex;
+            justify-content: space-between;
+            border-bottom: 2px solid var(--border-color);
+            padding-bottom: 10px;
+            margin-bottom: 25px;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+        }
+
+        .header h1 {
+            font-size: 1.8rem;
+            text-shadow: 0 0 5px var(--primary-color);
+        }
+
+        .header-stats {
+            text-align: right;
+            font-size: 0.9rem;
+            line-height: 1.4;
+        }
+
+        .main-content {
+            display: grid;
+            grid-template-columns: 1fr 2fr;
+            gap: 30px;
+        }
+
+        @media (max-width: 700px) {
+            .main-content {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        .image-container {
+            border: 2px solid var(--border-color);
+            padding: 10px;
+            position: relative;
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+
+        .image-wrapper {
+            position: relative;
+            width: 100%;
+            aspect-ratio: 3/4;
+            overflow: hidden;
+            border: 1px solid var(--primary-color);
+            background: var(--dark-purple);
+        }
+
+        /* Filter for Veda's image to match the purple digital theme */
+        .profile-pic {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            /* Magic filter to blend with the purple theme */
+            filter: grayscale(100%) sepia(100%) hue-rotate(240deg) saturate(400%) brightness(0.9) contrast(1.3);
+            mix-blend-mode: hard-light;
+        }
+
+        .image-overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: repeating-linear-gradient(
+                0deg,
+                transparent,
+                transparent 2px,
+                rgba(168, 85, 247, 0.15) 2px,
+                rgba(168, 85, 247, 0.15) 4px
+            );
+            pointer-events: none;
+            box-shadow: inset 0 0 20px rgba(0,0,0,0.8);
+        }
+
+        .scan-status {
+            text-align: center;
+            font-size: 0.8rem;
+            letter-spacing: 2px;
+            animation: pulse 2s infinite;
+        }
+
+        .info-panel {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+        }
+
+        .data-row {
+            display: flex;
+            border-bottom: 1px solid var(--border-color);
+            padding-bottom: 8px;
+        }
+
+        .data-label {
+            width: 140px;
+            font-weight: bold;
+            letter-spacing: 1px;
+            text-shadow: 0 0 2px var(--primary-color);
+        }
+
+        .data-value {
+            color: var(--text-color);
+            flex: 1;
+        }
+
+        .data-value a {
+            color: var(--text-color);
+            text-decoration: none;
+            transition: color 0.3s;
+        }
+
+        .data-value a:hover {
+            color: #fff;
+            text-shadow: 0 0 8px var(--primary-color);
+        }
+
+        .bio-section {
+            margin-top: 15px;
+            border: 1px solid var(--border-color);
+            padding: 20px 15px;
+            position: relative;
+            background: rgba(168, 85, 247, 0.05);
+        }
+        
+        .bio-section::before {
+            content: 'TERMINAL_LOG_//';
+            position: absolute;
+            top: -10px;
+            left: 10px;
+            background: var(--bg-color);
+            padding: 0 8px;
+            font-size: 0.8rem;
+            color: var(--primary-color);
+        }
+
+        .bio-text {
+            color: var(--text-color);
+            line-height: 1.6;
+            font-size: 0.95rem;
+            margin-bottom: 12px;
+        }
+
+        .bio-highlight {
+            color: #fff;
+            text-shadow: 0 0 5px var(--primary-color);
+            font-weight: bold;
+        }
+
+        .action-btn {
+            display: block;
+            width: 100%;
+            background: transparent;
+            border: 1px solid var(--primary-color);
+            color: var(--primary-color);
+            padding: 15px;
+            text-align: center;
+            text-decoration: none;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            margin-top: 25px;
+            transition: all 0.3s ease;
+            cursor: pointer;
+            box-shadow: inset 0 0 0 rgba(168, 85, 247, 0);
+            font-weight: bold;
+        }
+
+        .action-btn:hover {
+            background: rgba(168, 85, 247, 0.2);
+            box-shadow: inset 0 0 15px rgba(168, 85, 247, 0.5);
+            text-shadow: 0 0 5px var(--primary-color);
+            color: #fff;
+        }
+
+        /* Glitch and animation effects */
+        .crosshair {
+            position: absolute;
+            width: 20px;
+            height: 20px;
+            border: 2px solid var(--primary-color);
+        }
+
+        .tl { top: -2px; left: -2px; border-right: none; border-bottom: none; }
+        .tr { top: -2px; right: -2px; border-left: none; border-bottom: none; }
+        .bl { bottom: -2px; left: -2px; border-right: none; border-top: none; }
+        .br { bottom: -2px; right: -2px; border-left: none; border-top: none; }
+        
+        .flicker {
+            animation: textFlicker 3s infinite alternate;
+        }
+        
+        @keyframes textFlicker {
+            0%, 19%, 21%, 23%, 25%, 54%, 56%, 100% { opacity: 1; }
+            20%, 24%, 55% { opacity: 0.5; }
+        }
+
+        @keyframes pulse {
+            0% { opacity: 0.6; }
+            50% { opacity: 1; }
+            100% { opacity: 0.6; }
+        }
+        
+        .glitch-bar {
+            width: 100%;
+            height: 2px;
+            background: var(--primary-color);
+            margin: 5px 0;
+            opacity: 0.5;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .glitch-bar::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 50%;
+            height: 100%;
+            background: #fff;
+            animation: moveGlitch 4s infinite linear;
+            box-shadow: 0 0 10px var(--primary-color);
+        }
+
+        @keyframes moveGlitch {
+            0% { left: -100%; }
+            100% { left: 200%; }
+        }
+        
+        .typewriter {
+            overflow: hidden;
+            border-right: .15em solid var(--primary-color);
+            white-space: nowrap;
+            margin: 0 auto;
+            animation: 
+                typing 3.5s steps(40, end),
+                blink-caret .75s step-end infinite;
+        }
+
+        @keyframes typing {
+            from { width: 0 }
+            to { width: 100% }
+        }
+
+        @keyframes blink-caret {
+            from, to { border-color: transparent }
+            50% { border-color: var(--primary-color); }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <!-- Corner details -->
+        <div class="crosshair tl"></div>
+        <div class="crosshair tr"></div>
+        <div class="crosshair bl"></div>
+        <div class="crosshair br"></div>
+
+        <div class="header">
+            <h1 class="flicker">SUBJECT V-23</h1>
+            <div class="header-stats">
+                <div>STATUS: ACTIVE</div>
+                <div>ID: VED-199</div>
+            </div>
+        </div>
+
+        <div class="main-content">
+            <div class="image-container">
+                <div class="image-wrapper">
+                    <!-- Replace 'veda.jpg' with your actual image path if needed -->
+                    <!-- The filter makes this blend perfectly with the purple theme -->
+                    <img src="veda.jpg" alt="Veda" class="profile-pic" id="veda-pic" onerror="this.src='https://images.unsplash.com/photo-1620641788421-7a1c342ea42e?q=80&w=800&auto=format&fit=crop'; this.onerror='';">
+                    <div class="image-overlay"></div>
+                </div>
+                <div class="scan-status">
+                    SCAN_COMPLETE [100%]
+                </div>
+                <!-- Ability list mimicking the reference image -->
+                <div style="margin-top: 10px; border-top: 1px dotted var(--border-color); padding-top: 10px; font-size: 0.8rem; line-height: 1.5;">
+                    <div style="color: #fff; margin-bottom: 5px;">ABILITIES</div>
+                    <div>▪ EXECUTION ORIENTED</div>
+                    <div>▪ SYSTEM ARCHITECTURE</div>
+                    <div>▪ PRODUCT BUILDING</div>
+                    <div>▪ INFRASTRUCTURE CODE</div>
+                </div>
+            </div>
+
+            <div class="info-panel">
+                <div class="data-row">
+                    <div class="data-label">NAME</div>
+                    <div class="data-value">VEDA</div>
+                </div>
+                <div class="data-row">
+                    <div class="data-label">AGE</div>
+                    <div class="data-value">23</div>
+                </div>
+                <div class="data-row">
+                    <div class="data-label">ROLE</div>
+                    <div class="data-value">AGNOSTIC CODER</div>
+                </div>
+                <div class="data-row">
+                    <div class="data-label">INSTAGRAM</div>
+                    <div class="data-value"><a href="https://instagram.com/oceanfinned" target="_blank">@OCEANFINNED</a></div>
+                </div>
+                <div class="data-row">
+                    <div class="data-label">COMMS_LINK</div>
+                    <div class="data-value"><a href="mailto:rveda649@gmail.com">RVEDA649@GMAIL.COM</a></div>
+                </div>
+
+                <div class="glitch-bar"></div>
+
+                <div class="bio-section">
+                    <p class="bio-text">
+                        If I say I’m a coder, does that mean I can solve all 2000+ LeetCode problems or become the world’s best engineer? <span class="bio-highlight">No.</span>
+                    </p>
+                    <p class="bio-text">
+                        I’m someone who tries to make a product, a block, or a function work every day.
+                    </p>
+                    <p class="bio-text">
+                        I work on execution. I like building systems, products, infrastructure, and code that actually works for businesses. <span class="bio-highlight">I charge for my work.</span>
+                    </p>
+                    <p class="bio-text">
+                        I can help turn ideas into working software infrastructure with code.
+                    </p>
+                    <div style="margin-top: 15px; border-left: 2px solid var(--primary-color); padding-left: 10px;">
+                        <p class="bio-text bio-highlight" style="margin-bottom: 0; font-size: 1rem;">
+                            > HIGHLY EXECUTION-ORIENTED AND RESULT-DRIVEN MINDSET.
+                        </p>
+                    </div>
+                </div>
+
+                <a href="mailto:rveda649@gmail.com?subject=Portfolio Request" class="action-btn">
+                    > Initialize_DM: See Sample Projects
+                </a>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
